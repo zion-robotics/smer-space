@@ -2,6 +2,8 @@
 
 Source of truth for the redesign. Pulled directly from the live site's page source (view-source), not approximated.
 
+**Note:** the rebuild is now 4 separate pages (Home, Hire an SMM, Trainees, Contact Us), not one scrolling page. See architecture.md for the page-to-content mapping. A new "Meet the Team" section (with team photos) is also being added to the Home page, this has no equivalent on the current live site, so there's no original content to match, it's new.
+
 ## Colors
 
 ```

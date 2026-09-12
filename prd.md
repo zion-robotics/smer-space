@@ -10,7 +10,9 @@ Rebuild the marketing site from scratch in React, keeping the existing content, 
 
 ## In scope
 
-- Full rebuild of all 10 existing sections (Hero, About, How We Work, Services, Waitlist, Pricing, Portfolio, Founder, Contact, Footer), matching current content, fonts, and colors as documented in design.md
+- Rebuild as 4 separate pages (Home, Hire an SMM, Trainees, Contact Us) instead of a single scrolling page, see architecture.md for the routing and content mapping. This directly supports the SEO goal, since each page can target a different search term
+- Full rebuild of all existing content sections (Hero, About, How We Work, Services, Waitlist, Pricing, Portfolio, Founder, Contact, Footer), matching current content, fonts, and colors as documented in design.md
+- New "Meet the Team" section on the Home page, with team photos, this has no equivalent on the current site
 - A working waitlist form that actually saves submissions to Supabase (see schema.md)
 - New sections from Titiloye's "what we could do differently" list:
   - Embedded short training video clip on the homepage

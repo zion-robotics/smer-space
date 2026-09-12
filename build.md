@@ -3,8 +3,9 @@
 Build order for this phase, following prd.md, architecture.md, and schema.md. SMer OS gets its own build.md later.
 
 ## 1. Repo and project setup
-- [ ] Create the new GitHub repo
+- [x] Create the new GitHub repo
 - [ ] Scaffold the React project with Vite
+- [ ] Add React Router and set up the 4 page routes (`/`, `/hire`, `/trainees`, `/contact`) per architecture.md
 - [ ] Set up the folder structure from architecture.md
 - [ ] Add design tokens (colors, fonts) from design.md into `styles/tokens.css`
 
@@ -17,6 +18,7 @@ Build order for this phase, following prd.md, architecture.md, and schema.md. SM
 ## 3. Static sections (content matches the live site exactly)
 - [ ] Nav + mobile menu
 - [ ] Hero (including stats row, wired to the `stats` table instead of hardcoded numbers)
+- [ ] Meet the Team (new, needs photos and bios from Titiloye, not on the current site)
 - [ ] About
 - [ ] How We Work
 - [ ] Services
