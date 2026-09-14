@@ -1,0 +1,115 @@
+
+
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as HireRouteImport } from './routes/hire'
+import { Route as TraineesRouteImport } from './routes/trainees'
+
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HireRoute = HireRouteImport.update({
+  id: '/hire',
+  path: '/hire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TraineesRoute = TraineesRouteImport.update({
+  id: '/trainees',
+  path: '/trainees',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/hire': typeof HireRoute
+  '/trainees': typeof TraineesRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/hire': typeof HireRoute
+  '/trainees': typeof TraineesRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
+  '/hire': typeof HireRoute
+  '/trainees': typeof TraineesRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '/' | '/contact' | '/hire' | '/trainees'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/contact' | '/hire' | '/trainees'
+  id: '__root__' | '/' | '/contact' | '/hire' | '/trainees'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
+  HireRoute: typeof HireRoute
+  TraineesRoute: typeof TraineesRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hire': {
+      id: '/hire'
+      path: '/hire'
+      fullPath: '/hire'
+      preLoaderRoute: typeof HireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trainees': {
+      id: '/trainees'
+      path: '/trainees'
+      fullPath: '/trainees'
+      preLoaderRoute: typeof TraineesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
+  HireRoute: HireRoute,
+  TraineesRoute: TraineesRoute,
+}
+export const routeTree = rootRouteImport
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
