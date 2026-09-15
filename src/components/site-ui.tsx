@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Check, ChevronDown, Instagram, Linkedin, Mail, Menu, Phone, X } from "lucide-react";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/smer-logo-compact.png.asset.json";
+import logoAsset from "@/assets/smer-logo-compact.png";
 
 const instagramUrl = "https://www.instagram.com/thesmerspace?stkn=MXA5YmRmcjF6bTZ6MQ%3D%3D&utm_source=qr";
 const linkedinUrl = "https://www.linkedin.com/in/titiloye-daniel-242909289?utm_source=share_via&utm_content=profile&utm_medium=member_ios";
@@ -22,7 +22,7 @@ export function SiteHeader() {
     <header className="fixed inset-x-0 top-0 z-50 border-b border-border/70 bg-background/90 backdrop-blur-xl">
       <div className="site-container flex h-20 items-center justify-between gap-6">
         <Link to="/" aria-label="The SMer Space home" onClick={() => setMenuOpen(false)}>
-          <img src={logoAsset.url} alt="The SMer Space" className="h-12 w-36 object-contain object-left" />
+          <img src={logoAsset} alt="The SMer Space" className="h-12 w-36 object-contain object-left" />
         </Link>
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
           {navigation.map((item) => (
@@ -68,7 +68,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-footer py-12">
       <div className="site-container grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
-        <div><img src={logoAsset.url} alt="The SMer Space" className="h-16 w-44 object-contain object-left" /><p className="mt-4 max-w-md text-sm text-muted-foreground">Training the next generation of social media managers and matching brands with the right professionals.</p></div>
+        <div><img src={logoAsset} alt="The SMer Space" className="h-16 w-44 object-contain object-left" /><p className="mt-4 max-w-md text-sm text-muted-foreground">Training the next generation of social media managers and matching brands with the right professionals.</p></div>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">{navigation.map((item) => <Link key={item.to} to={item.to} className="text-muted-foreground transition-colors hover:text-foreground">{item.label}</Link>)}<a href={instagramUrl} target="_blank" rel="noreferrer" aria-label="The SMer Space on Instagram" className="text-muted-foreground transition-colors hover:text-foreground"><Instagram className="size-5" /></a><a href={linkedinUrl} target="_blank" rel="noreferrer" aria-label="The SMer Space on LinkedIn" className="text-muted-foreground transition-colors hover:text-foreground"><Linkedin className="size-5" /></a><a href={whatsappUrl} target="_blank" rel="noreferrer" aria-label="The SMer Space on WhatsApp" className="text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.23 22l5.27-1.38c1.45.79 3.08 1.21 4.74 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2Zm5.65 13.88c-.23.64-1.32 1.19-1.83 1.26-.49.07-.96.22-3.18-.66-2.69-1.08-4.4-3.83-4.54-4.01-.14-.18-1.08-1.44-1.08-2.75 0-1.31.68-1.94.92-2.21.24-.27.53-.34.71-.34.18 0 .36 0 .52.01.17 0 .39-.06.6.46.21.52.72 1.8.78 1.93.06.13.1.28.02.45-.08.17-.12.27-.24.42-.12.15-.25.32-.36.43-.12.12-.24.25-.11.49.13.24.6 1.01 1.29 1.63.88.79 1.62 1.04 1.85 1.15.23.11.36.09.5-.05.14-.15.57-.67.72-.9.15-.23.3-.19.5-.12.2.08 1.29.61 1.51.72.22.11.37.17.43.27.05.09.05.52-.12 1.16Z" /></svg></a></div>
       </div>
       <div className="site-container mt-10 border-t border-border pt-6 text-xs text-muted-foreground">© 2026 The SMer Space. All Rights Reserved.</div>
