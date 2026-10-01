@@ -185,6 +185,13 @@
 @utility role-line { color: var(--color-primary); font-size: .8rem; font-weight: 700; text-transform: uppercase; }
 @utility contact-link { display: flex; min-width: 0; gap: 1rem; background: var(--color-card); padding: 2rem; transition: background .2s; &:hover { background: var(--color-accent); } svg { flex-shrink: 0; color: var(--color-primary); } span { min-width: 0; overflow-wrap: anywhere; } small { display: block; margin-bottom: .35rem; color: var(--color-muted-foreground); font-size: .65rem; text-transform: uppercase; } }
 @utility contact-link-stacked { align-items: center; padding-block: 2.5rem; font-size: 1.15rem; small { font-size: .7rem; margin-bottom: .45rem; } }
+@utility gallery-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 1rem; align-items: start; @media (max-width: 760px) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; } }
+@utility gallery-item { grid-column: span 4; overflow: hidden; background: var(--color-card); img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .3s ease; } &:hover img { transform: scale(1.035); } @media (max-width: 760px) { grid-column: span 1; } }
+@utility gallery-standard { aspect-ratio: 4/5; }
+@utility gallery-tall { aspect-ratio: 3/4; @media (min-width: 761px) { grid-row: span 2; } }
+@utility gallery-wide { aspect-ratio: 5/4; @media (min-width: 761px) { grid-column: span 8; } }
+@utility footer-signoff { margin-top: 3.5rem; }
+@utility footer-wordmark { color: color-mix(in oklch, var(--color-foreground) 28%, var(--color-footer)); font-family: var(--font-display); font-size: clamp(3.2rem, 11vw, 9.5rem); font-weight: 900; line-height: .85; letter-spacing: 0; overflow-wrap: anywhere; padding-bottom: 2rem; text-align: center; }
 
 @keyframes reveal-on-scroll {
   from { opacity: 0; transform: translateY(24px); }
