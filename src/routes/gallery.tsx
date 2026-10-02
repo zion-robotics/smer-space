@@ -1,15 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageIntro } from "@/components/site-ui";
-import photo4051 from "@/assets/IMG_4051.JPG.asset.json";
-import photo4053 from "@/assets/IMG_4053.JPG.asset.json";
-import photo4054 from "@/assets/IMG_4054.JPG.asset.json";
-import photo4055 from "@/assets/IMG_4055.JPG.asset.json";
-import photo4056 from "@/assets/IMG_4056.JPG.asset.json";
-import photo4057 from "@/assets/IMG_4057.JPG.asset.json";
-import photo4058 from "@/assets/IMG_4058.JPG.asset.json";
-import photo4059 from "@/assets/IMG_4059.JPG.asset.json";
-import photo4060 from "@/assets/IMG_4060.JPG.asset.json";
-import photo4062 from "@/assets/IMG_4062.JPG.asset.json";
+import photo001 from "@/assets/gallery/IMG_001.JPG";
+import photo002 from "@/assets/gallery/IMG_002.JPG";
+import photo003 from "@/assets/gallery/IMG_003.JPG";
+import photo004 from "@/assets/gallery/IMG_004.JPG";
+import photo005 from "@/assets/gallery/IMG_005.JPG";
+import photo006 from "@/assets/gallery/IMG_006.JPG";
+import photo007 from "@/assets/gallery/IMG_007.JPG";
+import photo008 from "@/assets/gallery/IMG_008.JPG";
+import photo009 from "@/assets/gallery/IMG_009.JPG";
+import photo010 from "@/assets/gallery/IMG_010.JPG";
+import photo011 from "@/assets/gallery/IMG_011.JPG";
+import photo012 from "@/assets/gallery/IMG_012.JPG";
+import photo013 from "@/assets/gallery/IMG_013.JPG";
+import photo014 from "@/assets/gallery/IMG_014.JPG";
+import photo015 from "@/assets/gallery/IMG_015.JPG";
+import photo016 from "@/assets/gallery/IMG_016.JPG";
+import photo017 from "@/assets/gallery/IMG_017.JPG";
+import photo018 from "@/assets/gallery/IMG_018.JPG";
+import galleryVideo from "@/assets/gallery/VID_001.mp4";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -25,17 +34,26 @@ export const Route = createFileRoute("/gallery")({
   component: GalleryPage,
 });
 
-const photos = [
-  { src: photo4051.url, alt: "SMer Space team member smiling outdoors", shape: "gallery-tall" },
-  { src: photo4053.url, alt: "SMer Space team member in a red branded shirt", shape: "gallery-wide" },
-  { src: photo4054.url, alt: "Portrait of an SMer Space team member", shape: "gallery-standard" },
-  { src: photo4055.url, alt: "SMer Space portrait against a warm background", shape: "gallery-tall" },
-  { src: photo4056.url, alt: "Side portrait of an SMer Space team member", shape: "gallery-standard" },
-  { src: photo4057.url, alt: "SMer Space team member smiling beside a road", shape: "gallery-wide" },
-  { src: photo4058.url, alt: "SMer Space team member adjusting sunglasses outdoors", shape: "gallery-tall" },
-  { src: photo4059.url, alt: "Full-length SMer Space team portrait outdoors", shape: "gallery-standard" },
-  { src: photo4060.url, alt: "SMer Space team member smiling with folded arms", shape: "gallery-wide" },
-  { src: photo4062.url, alt: "Close portrait of an SMer Space team member", shape: "gallery-tall" },
+const galleryItems = [
+  { type: "image", src: photo001, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo002, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo003, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo004, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo005, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo006, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo007, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo008, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo009, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo010, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo011, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo012, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo013, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo014, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo015, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo016, alt: "The SMer Space community", shape: "gallery-tall" },
+  { type: "image", src: photo017, alt: "The SMer Space community", shape: "gallery-standard" },
+  { type: "image", src: photo018, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "video", src: galleryVideo, alt: "The SMer Space community video", shape: "gallery-wide" },
 ];
 
 function GalleryPage() {
@@ -45,9 +63,13 @@ function GalleryPage() {
     </PageIntro>
     <section className="section">
       <div className="site-container gallery-grid">
-        {photos.map((photo, index) => (
-          <figure key={photo.src} className={`gallery-item ${photo.shape} motion-reveal`}>
-            <img src={photo.src} alt={photo.alt} loading={index > 2 ? "lazy" : "eager"} />
+        {galleryItems.map((item, index) => (
+          <figure key={item.src} className={`gallery-item ${item.shape} motion-reveal`}>
+            {item.type === "video" ? (
+              <video src={item.src} aria-label={item.alt} controls playsInline preload="metadata" />
+            ) : (
+              <img src={item.src} alt={item.alt} loading={index > 2 ? "lazy" : "eager"} />
+            )}
           </figure>
         ))}
       </div>

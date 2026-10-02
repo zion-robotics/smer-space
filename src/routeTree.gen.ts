@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as HireRouteImport } from './routes/hire'
 import { Route as TraineesRouteImport } from './routes/trainees'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HireRoute = HireRouteImport.update({
@@ -38,12 +44,14 @@ const TraineesRoute = TraineesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/hire': typeof HireRoute
   '/trainees': typeof TraineesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/hire': typeof HireRoute
   '/trainees': typeof TraineesRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/gallery': typeof GalleryRoute
   '/hire': typeof HireRoute
   '/trainees': typeof TraineesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/hire' | '/trainees'
+  fullPaths: '/' | '/contact' | '/gallery' | '/hire' | '/trainees'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/hire' | '/trainees'
-  id: '__root__' | '/' | '/contact' | '/hire' | '/trainees'
+  to: '/' | '/contact' | '/gallery' | '/hire' | '/trainees'
+  id: '__root__' | '/' | '/contact' | '/gallery' | '/hire' | '/trainees'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  GalleryRoute: typeof GalleryRoute
   HireRoute: typeof HireRoute
   TraineesRoute: typeof TraineesRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hire': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  GalleryRoute: GalleryRoute,
   HireRoute: HireRoute,
   TraineesRoute: TraineesRoute,
 }
