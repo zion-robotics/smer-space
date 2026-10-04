@@ -36,24 +36,24 @@ export const Route = createFileRoute("/gallery")({
 
 const galleryItems = [
   { type: "image", src: photo001, alt: "The SMer Space community", shape: "gallery-tall" },
-  { type: "image", src: photo002, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo002, alt: "The SMer Space community", shape: "gallery-feature" },
   { type: "image", src: photo003, alt: "The SMer Space community", shape: "gallery-standard" },
   { type: "image", src: photo004, alt: "The SMer Space community", shape: "gallery-tall" },
   { type: "image", src: photo005, alt: "The SMer Space community", shape: "gallery-standard" },
   { type: "image", src: photo006, alt: "The SMer Space community", shape: "gallery-wide" },
   { type: "image", src: photo007, alt: "The SMer Space community", shape: "gallery-tall" },
   { type: "image", src: photo008, alt: "The SMer Space community", shape: "gallery-standard" },
-  { type: "image", src: photo009, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo009, alt: "The SMer Space community", shape: "gallery-feature" },
   { type: "image", src: photo010, alt: "The SMer Space community", shape: "gallery-tall" },
   { type: "image", src: photo011, alt: "The SMer Space community", shape: "gallery-standard" },
   { type: "image", src: photo012, alt: "The SMer Space community", shape: "gallery-wide" },
   { type: "image", src: photo013, alt: "The SMer Space community", shape: "gallery-tall" },
   { type: "image", src: photo014, alt: "The SMer Space community", shape: "gallery-standard" },
-  { type: "image", src: photo015, alt: "The SMer Space community", shape: "gallery-wide" },
+  { type: "image", src: photo015, alt: "The SMer Space community", shape: "gallery-feature" },
   { type: "image", src: photo016, alt: "The SMer Space community", shape: "gallery-tall" },
   { type: "image", src: photo017, alt: "The SMer Space community", shape: "gallery-standard" },
   { type: "image", src: photo018, alt: "The SMer Space community", shape: "gallery-wide" },
-  { type: "video", src: galleryVideo, alt: "The SMer Space community video", shape: "gallery-wide" },
+  { type: "video", src: galleryVideo, alt: "The SMer Space community video", shape: "gallery-feature" },
 ];
 
 function GalleryPage() {
@@ -66,9 +66,9 @@ function GalleryPage() {
         {galleryItems.map((item, index) => (
           <figure key={item.src} className={`gallery-item ${item.shape} motion-reveal`}>
             {item.type === "video" ? (
-              <video src={item.src} aria-label={item.alt} controls playsInline preload="metadata" />
+              <video src={item.src} aria-label={item.alt} controls playsInline preload="none" />
             ) : (
-              <img src={item.src} alt={item.alt} loading={index > 2 ? "lazy" : "eager"} />
+              <img src={item.src} alt={item.alt} loading={index === 0 ? "eager" : "lazy"} decoding="async" fetchPriority={index === 0 ? "high" : "auto"} />
             )}
           </figure>
         ))}
