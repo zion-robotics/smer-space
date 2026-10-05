@@ -172,6 +172,7 @@
   h3 { margin-top: .4rem; font-size: 1.5rem; font-weight: 700; }
   .team-bio { margin-top: .6rem; font-size: .95rem; color: var(--color-muted-foreground); }
   .team-portrait { display: grid; place-items: center; aspect-ratio: 3/2; border-bottom: 1px solid var(--color-border); background: color-mix(in oklch, var(--color-foreground) 5%, var(--color-card)); span { font-family: var(--font-display); font-size: 2.75rem; font-weight: 900; letter-spacing: .1em; color: color-mix(in oklch, var(--color-foreground) 30%, transparent); } }
+  .team-portrait-collins { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
   .team-more { margin-top: 1rem; padding-top: .9rem; border-top: 1px solid var(--color-border);
     summary { display: flex; align-items: center; justify-content: space-between; gap: .5rem; cursor: pointer; list-style: none; font-size: .8rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--color-primary); span { font-weight: 400; transition: transform .2s ease; } }
     summary::-webkit-details-marker { display: none; }
@@ -502,4 +503,3 @@
   html { scroll-behavior: auto; }
   .motion-reveal, .parallax-media { animation: none; transform: none; }
 }
-
