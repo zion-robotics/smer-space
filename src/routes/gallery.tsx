@@ -232,7 +232,7 @@ function GalleryPage() {
           {galleryItems.map((item, index) => (
             <figure
               key={item.type === "video" ? item.src : item.avif}
-              className={`gallery-item ${item.shape} motion-reveal`}
+              className={`gallery-item ${item.shape} ${item.type === "video" ? "gallery-video" : ""} motion-reveal`}
             >
               {item.type === "video" ? (
                 <video src={item.src} aria-label={item.alt} controls playsInline preload="none" />

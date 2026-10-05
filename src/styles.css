@@ -374,8 +374,8 @@
   grid-column: 4;
   grid-row: 6;
 }
-.gallery-item:nth-child(19) {
-  grid-column: 5;
+.gallery-video {
+  grid-column: 3;
   grid-row: 6;
 }
 @media (max-width: 760px) {
@@ -502,5 +502,4 @@
   html { scroll-behavior: auto; }
   .motion-reveal, .parallax-media { animation: none; transform: none; }
 }
-
 
