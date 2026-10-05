@@ -61,6 +61,12 @@ export const Route = createFileRoute("/gallery")({
 
 const galleryItems = [
   {
+    type: "video",
+    src: galleryVideo,
+    alt: "The SMer Space community video",
+    shape: "gallery-feature",
+  },
+  {
     type: "image",
     avif: photo001Avif,
     webp: photo001Webp,
@@ -185,12 +191,6 @@ const galleryItems = [
     webp: photo018Webp,
     alt: "The SMer Space community",
     shape: "gallery-wide",
-  },
-  {
-    type: "video",
-    src: galleryVideo,
-    alt: "The SMer Space community video",
-    shape: "gallery-feature",
   },
 ];
 
