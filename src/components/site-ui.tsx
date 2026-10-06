@@ -10,6 +10,7 @@ const whatsappUrl = "https://wa.me/2349126262410";
 
 const navigation = [
   { label: "Home", to: "/" as const },
+  { label: "About Us", to: "/about" as const },
   { label: "Hire an SMM", to: "/hire" as const },
   { label: "Trainees", to: "/trainees" as const },
   { label: "Gallery", to: "/gallery" as const },
