@@ -3,6 +3,7 @@ import { ArrowRight, Check, ChevronDown, Instagram, Linkedin, Mail, Menu, Phone,
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/smer-logo-compact.png";
+import { supabase } from "@/lib/supabase";
 
 const instagramUrl = "https://www.instagram.com/thesmerspace?stkn=MXA5YmRmcjF6bTZ6MQ%3D%3D&utm_source=qr";
 const linkedinUrl = "https://www.linkedin.com/in/titiloye-daniel-242909289?utm_source=share_via&utm_content=profile&utm_medium=member_ios";
@@ -89,18 +90,67 @@ export function SectionHeading({ eyebrow, title, description }: { eyebrow: strin
   return <div className="motion-reveal mb-12 max-w-3xl"><p className="eyebrow">{eyebrow}</p><h2 className="section-title">{title}</h2>{description && <p className="mt-5 text-lg text-muted-foreground">{description}</p>}</div>;
 }
 
-export function WaitlistForm({ path, onSubmit }: { path: "Brand" | "Aspiring SMM"; onSubmit?: (data: FormData) => void }) {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+type SignupType = "Brand" | "Aspiring SMM" | "Both";
+type FormStatus = "idle" | "submitting" | "success" | "error";
+
+export function WaitlistForm({ path }: { path: "Brand" | "Aspiring SMM" }) {
+  const [status, setStatus] = useState<FormStatus>("idle");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit?.(new FormData(event.currentTarget));
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    // Hidden field that real people never fill in. If a bot fills it, pretend it worked.
+    if (String(data.get("company") ?? "").length > 0) {
+      setStatus("success");
+      return;
+    }
+
+    if (!supabase) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("submitting");
+    const { error } = await supabase.from("waitlist_signups").insert({
+      name: String(data.get("name") ?? "").trim(),
+      email: String(data.get("email") ?? "").trim(),
+      phone: String(data.get("phone") ?? "").trim(),
+      signup_type: String(data.get("identity") ?? path) as SignupType,
+    });
+
+    if (error) {
+      setStatus("error");
+      return;
+    }
+    form.reset();
+    setStatus("success");
   };
+
+  if (status === "success") {
+    return (
+      <p role="status" className="border border-primary-foreground/30 p-6 text-lg">
+        You are on the list. We will be in touch shortly.
+      </p>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2" aria-label={`${path} waitlist form`}>
-      <label className="field-label">Name<input className="field" name="name" type="text" placeholder="Your full name" required /></label>
-      <label className="field-label">Email<input className="field" name="email" type="email" placeholder="you@example.com" required /></label>
-      <label className="field-label">Phone<input className="field" name="phone" type="tel" placeholder="+234" required /></label>
+      <label className="field-label">Name<input className="field" name="name" type="text" placeholder="Your full name" maxLength={100} required /></label>
+      <label className="field-label">Email<input className="field" name="email" type="email" placeholder="you@example.com" maxLength={254} required /></label>
+      <label className="field-label">Phone<input className="field" name="phone" type="tel" placeholder="+234" minLength={5} maxLength={30} required /></label>
       <label className="field-label">I Am A<select className="field" name="identity" defaultValue={path}><option>Brand</option><option>Aspiring SMM</option><option>Both</option></select></label>
-      <Button type="submit" variant="inverse" size="lg" className="mt-2 md:col-span-2 md:w-fit">Join the waitlist <ArrowRight /></Button>
+      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+      <Button type="submit" variant="inverse" size="lg" disabled={status === "submitting"} className="mt-2 md:col-span-2 md:w-fit">
+        {status === "submitting" ? "Sending..." : "Join the waitlist"} <ArrowRight />
+      </Button>
+      {status === "error" && (
+        <p role="alert" className="md:col-span-2">
+          Something went wrong and your details were not saved. Please try again, or message us on WhatsApp.
+        </p>
+      )}
     </form>
   );
 }
