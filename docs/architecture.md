@@ -1,85 +1,65 @@
-# architecture.md — The SMer Space (Marketing Site)
+# architecture.md: The SMer Space (Marketing Site)
 
-Covers the marketing site rebuild only. SMer OS gets its own architecture section once that project starts.
+Covers the marketing site only. SMer OS gets its own architecture section once that project starts.
 
 ## Stack
 
-- **Frontend:** React, built with Vite, with React Router for multi-page routing
-- **Styling:** matches design.md tokens exactly (colors, Playfair Display + Inter, section spacing)
-- **Backend:** Supabase (see schema.md) for waitlist, stats, and testimonials
+- **Framework:** TanStack Start (React 19) with TanStack Router. Pages render on the server (SSR, server-side rendering), so search engines get full HTML for every page.
+- **Styling:** Tailwind CSS 4, using the tokens in `src/styles.css` (see design.md)
+- **Backend:** Supabase (see schema.md) for the waitlist, stats, and testimonials
+- **Data fetching:** TanStack Query, with the hooks in `src/lib/site-content.ts`
+- **Package manager:** Bun
 - **Hosting:** Vercel
-- **Domain:** smerspace.com (existing domain, already owned by Titiloye)
-- **Version control:** new GitHub repo, built from scratch, not migrated from the old Framer export
+- **Domain:** smerspace.com, already owned by Titiloye
 
-## Why this stack
+## Routes
 
-- React was chosen because it's the team's existing skillset, and because a static-only site is what caused the SEO and backend problems in the first place.
-- React Router added because the site is now 4 separate pages, not one scrolling page, so each page needs its own URL, its own title tag, and its own meta description targeting a different search term. This directly supports the original SEO goal, a single page can't target multiple search terms nearly as well as dedicated pages can.
-- Supabase over a custom backend, since the only backend needs are storing form submissions and reading a handful of numbers and quotes, well within what Supabase handles without extra infrastructure.
+File-based routing. Each file in `src/routes` is one page, with its own title and meta description set in its `head` function.
 
-## Site structure: 4 pages
-
-| Page | Route | Content |
+| Page | Route | File |
 |---|---|---|
-| Home | `/` | Hero (headline, subtext, CTA, stats row), Meet the Team, About, How We Work, live stats, testimonials, FAQ, one CTA |
-| Hire an SMM | `/hire` | Services, full Pricing (all 14 tiers), Portfolio, waitlist form (Brand path) |
-| Trainees | `/trainees` | SMM Masterclass details, Founder story, waitlist form (Aspiring SMM path) |
-| Contact Us | `/contact` | Contact info, short recap of what The SMer Space does |
+| Home | `/` | `src/routes/index.tsx` |
+| About Us | `/about` | `src/routes/about.tsx` |
+| Hire an SMM | `/hire` | `src/routes/hire.tsx` |
+| Trainees | `/trainees` | `src/routes/trainees.tsx` |
+| Gallery | `/gallery` | `src/routes/gallery.tsx` |
+| Contact Us | `/contact` | `src/routes/contact.tsx` |
 
-Each page needs its own `<title>` and meta description once the SEO phase starts, this is the whole point of splitting into pages rather than staying single-page.
-
-## Project structure (proposed)
+## Folder structure
 
 ```
-smerspace-site/
-  src/
-    pages/
-      Home.tsx
-      HireAnSMM.tsx
-      Trainees.tsx
-      Contact.tsx
-    components/
-      Nav.tsx
-      Footer.tsx
-      Hero.tsx
-      MeetTheTeam.tsx    (new)
-      About.tsx
-      HowWeWork.tsx
-      Stats.tsx
-      Testimonials.tsx
-      FAQ.tsx
-      Services.tsx
-      Pricing.tsx
-      Portfolio.tsx
-      WaitlistForm.tsx   (reused on both Hire an SMM and Trainees, with a path prop)
-      Founder.tsx
-      ContactInfo.tsx
-    lib/
-      supabaseClient.ts
-    styles/
-      tokens.css         (colors, fonts, from design.md)
-    App.tsx              (routes)
-    main.tsx
-  public/
-    founder-photo.jpg    (replacing the inline base64 image)
-    team/                (Meet the Team photos)
-  .env                   (Supabase URL + anon key, not committed)
+src/
+  routes/            one file per page, plus __root.tsx
+  components/
+    site-ui.tsx      header, footer, WaitlistForm, PricingCard, ContactLinks
+    site-data.ts     pricing tiers
+    ui/              shared UI components
+  lib/
+    supabase.ts      Supabase client (returns null if env vars are missing)
+    site-content.ts  hooks for stats and testimonials
+  assets/            images and logos
+  styles.css         design tokens and utilities
 ```
 
-## Domain and future SMer OS separation
+## Data flow
 
-- `smerspace.com` → marketing site (this project)
-- `app.smerspace.com` → reserved for SMer OS later, a separate Vercel deployment from a separate repo, pointed there via a DNS subdomain record when that project starts
+- **Waitlist:** `WaitlistForm` inserts a row into `waitlist_signups`. The public (anon) role can insert but cannot read, edit, or delete. Do not chain `.select()` onto the insert, because the anon role has no read permission.
+- **Stats:** `useStats()` reads the `stats` table. If Supabase is unreachable, it falls back to the original hardcoded numbers.
+- **Testimonials:** `useTestimonials()` reads only rows where `is_published = true`. With no published rows, the page shows an empty state.
 
 ## Environment variables
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
 
-Both are safe to expose in frontend code, since the anon key's permissions are limited entirely by the RLS policies defined in schema.md, not by keeping the key secret.
+Set both locally in `.env` and in the Vercel project settings. `VITE_` values are baked in at build time, so redeploy after changing them.
 
-## Out of scope for this architecture
+## Domain and future SMer OS separation
 
-- Authentication (not needed until SMer OS)
-- Payment processing (pricing page CTAs link to WhatsApp, not a checkout)
-- Server-side rendering (revisit only if SEO work requires it beyond per-page meta tags)
+- `smerspace.com`: this site
+- `app.smerspace.com`: reserved for SMer OS, a separate Vercel project and repo, pointed at it with a DNS (Domain Name System) subdomain record when that project starts
+
+## Out of scope
+
+- Authentication (needed only for SMer OS)
+- Payment processing (package buttons open WhatsApp)
